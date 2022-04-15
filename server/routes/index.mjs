@@ -1,9 +1,26 @@
 import express from 'express'
 const router = express.Router()
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.send('Hello, world!')
+/**
+ *  @openapi
+ *  components:
+ *    schemas:
+ *      Error:
+ *        type: object
+ *        properties:
+ *          msg:
+ *            type: string
+ *    responses:
+ *      ServerError:
+ *        description: Something unexpected happened
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Error'
+ */
+
+router.get('/', function (req, res) {
+  res.send('Good!')
 })
 
 export default router
