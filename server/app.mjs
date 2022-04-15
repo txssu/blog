@@ -1,5 +1,5 @@
 import express from 'express'
-import path from 'path'
+import path, { dirname } from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 
@@ -7,10 +7,9 @@ import indexRouter from './routes/index.mjs'
 import usersRouter from './routes/users.mjs'
 
 import swaggerUi from 'swagger-ui-express'
-import swaggerJsdoc from "swagger-jsdoc"
+import swaggerJsdoc from 'swagger-jsdoc'
 
 import { fileURLToPath } from 'url'
-import { dirname } from 'path'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

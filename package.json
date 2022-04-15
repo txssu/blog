@@ -6,15 +6,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node ./server/bin/www.mjs",
-    "start:dev": "DEBUG=blog:* yarn run start",
-    "lint": "eslint '**/*.mjs' --ignore-pattern node_modules/ --ignore-pattern docker/ --fix"
+    "start:dev": "scripty",
+    "lint": "scripty",
+    "docker:postgres:run": "scripty",
+    "db:create": "scripty",
+    "db:migrate": "scripty",
+    "db:setup": "scripty",
+    "db:reset": "scripty"
   },
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "debug": "^4.3.4",
     "express": "^4.17.3",
     "morgan": "^1.10.0",
+    "pg": "^8.7.3",
     "sequelize": "^6.19.0",
     "swagger-jsdoc": "^6.2.0",
     "swagger-ui-express": "^4.3.0"
@@ -25,6 +30,7 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
+    "scripty": "^2.1.0",
     "sequelize-cli": "^6.4.1"
   }
 }

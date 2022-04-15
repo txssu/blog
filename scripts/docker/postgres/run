@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+docker run --name "blog_postgres" \
+           -p 5432:5432           \
+           -e POSTGRES_USER=blog  \
+           -e POSTGRES_PASSWORD=blog \
+           -e POSTGRES_DB=blog_development \
+           -v $(pwd)/docker/data/postgres:/var/lib/postgresql/data \
+           -d postgres:bullseye ||
+docker start blog ||
+echo "Unable to run postgres container"
