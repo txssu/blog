@@ -18,13 +18,13 @@ const db = {}
 
 let sequelize
 if (dbConfig.useEnvVariable) {
-  sequelize = new Sequelize(process.env[dbConfig.env], dbConfig.options)
+  sequelize = new Sequelize(process.env[dbConfig.env], dbConfig)
 } else {
   sequelize = new Sequelize(
-    dbConfig.connection.database,
-    dbConfig.connection.username,
-    dbConfig.connection.password,
-    dbConfig.options
+    dbConfig.database,
+    dbConfig.username,
+    dbConfig.password,
+    dbConfig
   )
 }
 

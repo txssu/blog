@@ -2,14 +2,10 @@
   "Database": {
     "useEnvVariable": false,
     "env": "DATABASE_URI",
-    "connection": {
-      "username": "blog",
-      "password": "blog",
-      "database": "blog_development",
-      "host": "127.0.0.1"
-    },
-    "options": {
-      "dialect": "postgres"
-    }
+    "username": "blog",
+    "password": "blog",
+    "database": "blog_development",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   }
 }
