@@ -28,17 +28,22 @@ if (dbConfig.useEnvVariable) {
   )
 }
 
-fs.readdirSync(__dirname)
-  .filter(file => {
-    return (
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-4) === '.mjs'
-    )
-  })
-  .forEach(async file => {
-    const model = await import(path.join(__dirname, file))
-    const loadedModel = model.default(sequelize, Sequelize.DataTypes)
-    db[loadedModel.name] = loadedModel
-  })
+await Promise.all(
+  fs
+    .readdirSync(__dirname)
+    .filter(file => {
+      return (
+        file.indexOf('.') !== 0 &&
+        file !== basename &&
+        file.slice(-4) === '.mjs'
+      )
+    })
+    .map(async file => {
+      const model = await import(path.join(__dirname, file))
+      const loadedModel = model.default(sequelize, Sequelize.DataTypes)
+      db[loadedModel.name] = loadedModel
+    })
+)
 
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
