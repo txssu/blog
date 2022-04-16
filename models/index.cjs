@@ -4,19 +4,21 @@ const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
-const env = process.env.NODE_ENV || 'development'
-const config = require(path.join(__dirname, '/../config/config.json'))[env]
+const config = require('config')
+
+const dbConfig = config.get('Database')
+
 const db = {}
 
 let sequelize
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config)
+if (dbConfig.useEnvVariable) {
+  sequelize = new Sequelize(process.env[dbConfig.env], dbConfig.options)
 } else {
   sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
+    dbConfig.connection.database,
+    dbConfig.connection.username,
+    dbConfig.connection.password,
+    dbConfig.options
   )
 }
 
