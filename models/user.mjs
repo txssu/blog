@@ -1,8 +1,13 @@
 import { Model } from 'sequelize'
+import * as hashing from '../server/app/hashing.mjs'
 
 export default (sequelize, DataTypes) => {
   class User extends Model {
-    static associate (models) {}
+    static associate (models) {
+      User.hasMany(models.Token, {
+        foreignKey: 'userId'
+      })
+    }
   }
   User.init(
     {
@@ -35,7 +40,7 @@ export default (sequelize, DataTypes) => {
       hooks: {
         afterValidate: async (user, options) => {
           if (user.password) {
-            user.password = 'hash' // TODO: Make password hashing
+            user.password = await hashing.hashPassword(user.password)
           }
         }
       }

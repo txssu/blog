@@ -16,6 +16,7 @@
     "db:reset": "scripty"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "config": "^3.3.7",
     "cookie-parser": "^1.4.6",
     "debug": "^4.3.4",

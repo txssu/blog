@@ -3,8 +3,11 @@ import path, { dirname } from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 
+import auth from './middleware/auth.mjs'
+
 import indexRouter from './routes/index.mjs'
 import usersRouter from './routes/users.mjs'
+import sessionRouter from './routes/session.mjs'
 
 import swaggerUi from 'swagger-ui-express'
 import swaggerJsdoc from 'swagger-jsdoc'
@@ -39,9 +42,12 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, '../public')))
 
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification))
-app.use('/openapi', function (req, res) { res.send(openapiSpecification) })
+app.use('/openapi', function (req, res) {
+  res.send(openapiSpecification)
+})
 
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
+app.use('/session', sessionRouter)
 
 export default app
