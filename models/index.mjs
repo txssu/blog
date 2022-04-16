@@ -1,10 +1,16 @@
 'use strict'
 
-const fs = require('fs')
-const path = require('path')
-const Sequelize = require('sequelize')
+import fs from 'fs'
+import path, { dirname } from 'path'
+import Sequelize from 'sequelize'
+
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 const basename = path.basename(__filename)
-const config = require('config')
+
+import config from 'config'
 
 const dbConfig = config.get('Database')
 
@@ -25,15 +31,13 @@ if (dbConfig.useEnvVariable) {
 fs.readdirSync(__dirname)
   .filter(file => {
     return (
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-4) === '.cjs'
+      file.indexOf('.') !== 0 && file !== basename && file.slice(-4) === '.mjs'
     )
   })
-  .forEach(file => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    )
-    db[model.name] = model
+  .forEach(async file => {
+    const model = await import(path.join(__dirname, file))
+    const loadedModel = model.default(sequelize, Sequelize.DataTypes)
+    db[loadedModel.name] = loadedModel
   })
 
 Object.keys(db).forEach(modelName => {
@@ -45,4 +49,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
-module.exports = db
+export default db

@@ -1,4 +1,4 @@
-import db from '../../models/index.cjs'
+import db from '../../models/index.mjs'
 
 export async function getAllUsers () {
   return db.User.findAll()
