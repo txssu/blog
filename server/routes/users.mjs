@@ -3,6 +3,7 @@ import express from 'express'
 import * as crud from '../app/crud.mjs'
 import renderUser from '../renders/user.mjs'
 import * as helpers from '../app/helpers.mjs'
+import adminOnly from '../middleware/admin.mjs'
 const router = express.Router()
 
 /**
@@ -23,6 +24,17 @@ const router = express.Router()
  *            format: date
  *          isAdmin:
  *            type: boolean
+ *          isEditor:
+ *            type: boolean
+ *      NewUser:
+ *        type: object
+ *        properties:
+ *          name:
+ *            type: string
+ *            required: true
+ *          username:
+ *            type: string
+ *            required: true
  *          isEditor:
  *            type: boolean
  *    parameters:
@@ -54,6 +66,40 @@ const router = express.Router()
 router.get('/', async function (req, res) {
   const users = await crud.getAllUsers()
   res.send(users.map(renderUser))
+})
+
+/**
+ *  @openapi
+ *  /users:
+ *    post:
+ *      description: Create user. Admin only.
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                user:
+ *                  $ref: '#/components/schemas/NewUser'
+ *      responses:
+ *        200:
+ *          description: Returns new user with his password
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  user:
+ *                    $ref: '#/components/schemas/User'
+ *                  password:
+ *                    type: string
+ *        500:
+ *          $ref: '#/components/responses/ServerError'
+ */
+router.post('/', adminOnly, async function (req, res) {
+  const userData = req.body.user
+  const { user, password } = await crud.createUser(userData)
+  res.send({ user: renderUser(user), password })
 })
 
 /**

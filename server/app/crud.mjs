@@ -19,15 +19,13 @@ export async function updateUsername (userId, { username, email }) {
   )
 }
 
-/*
-export async function deleteUser (userId) {
-  return db.User.destroy({
-    where: {
-      id: userId
-    }
-  })
+export async function createUser ({ username, name, isEditor }) {
+  const password = await hashing.randomPassword()
+  return {
+    user: await db.User.create({ username, password, name, editor: isEditor }),
+    password
+  }
 }
-*/
 
 export async function loginUser ({ username, password }) {
   const user = await db.User.findOne({ where: { username } })

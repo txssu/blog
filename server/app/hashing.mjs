@@ -13,3 +13,7 @@ export async function createToken () {
   const token = crypto.randomBytes(48)
   return token.toString('hex')
 }
+export async function randomPassword () {
+  const token = crypto.randomBytes(8)
+  return token.toString('hex')
+}
