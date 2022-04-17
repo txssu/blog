@@ -1,4 +1,5 @@
 import express from 'express'
+import asyncHandler from 'express-async-handler'
 
 import authorizedOnly, { auth } from '../middleware/auth.mjs'
 
@@ -56,7 +57,7 @@ const router = express.Router()
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.post('/', auth, async function (req, res) {
+router.post('/', auth, asyncHandler(async function (req, res) {
   if (req.auth) {
     res.status(409).send({ msg: "You're already authorized" })
     return
@@ -74,7 +75,7 @@ router.post('/', auth, async function (req, res) {
   } else {
     res.status(403).send({ msg: 'Wrong username or password' })
   }
-})
+}))
 
 /**
  *  @openapi
@@ -97,10 +98,10 @@ router.post('/', auth, async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.delete('/', authorizedOnly, async function (req, res) {
+router.delete('/', authorizedOnly, asyncHandler(async function (req, res) {
   await req.auth.destroy()
   res.clearCookie('usertoken')
   res.end()
-})
+}))
 
 export default router

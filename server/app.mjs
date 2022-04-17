@@ -3,6 +3,8 @@ import path, { dirname } from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 
+import errorHandler from './middleware/errorHandler.mjs'
+
 import indexRouter from './routes/index.mjs'
 import usersRouter from './routes/users.mjs'
 import sessionRouter from './routes/session.mjs'
@@ -47,5 +49,6 @@ app.use('/openapi', function (req, res) {
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/session', sessionRouter)
+app.use(errorHandler)
 
 export default app

@@ -1,4 +1,5 @@
 import express from 'express'
+import asyncHandler from 'express-async-handler'
 
 import * as crud from '../app/crud.mjs'
 import renderUser from '../renders/user.mjs'
@@ -63,10 +64,10 @@ const router = express.Router()
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.get('/', async function (req, res) {
+router.get('/', asyncHandler(async function (req, res) {
   const users = await crud.getAllUsers()
   res.send(users.map(renderUser))
-})
+}))
 
 /**
  *  @openapi
@@ -96,11 +97,11 @@ router.get('/', async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.post('/', adminOnly, async function (req, res) {
+router.post('/', adminOnly, asyncHandler(async function (req, res) {
   const userData = req.body.user
   const { user, password } = await crud.createUser(userData)
   res.send({ user: renderUser(user), password })
-})
+}))
 
 /**
  *  @openapi
@@ -125,20 +126,15 @@ router.post('/', adminOnly, async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.get('/:userId', async function (req, res) {
+router.get('/:userId', asyncHandler(async function (req, res) {
   const { userId } = req.params
 
-  try {
-    const user = await crud.getUserById(userId)
-    if (user === null) {
-      res.status(404).send({ msg: 'User not found' })
-    } else {
-      res.send(renderUser(user))
-    }
-  } catch (e) {
-    console.log(e)
-    helpers.sendServerError(res)
+  const user = await crud.getUserById(userId)
+  if (user === null) {
+    res.status(404).send({ msg: 'User not found' })
+  } else {
+    res.send(renderUser(user))
   }
-})
+}))
 
 export default router
