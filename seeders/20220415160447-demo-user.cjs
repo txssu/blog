@@ -10,6 +10,16 @@ module.exports = {
         editor: false,
         createdAt: new Date(),
         updatedAt: new Date()
+      },
+      {
+        name: 'Jonh Gray',
+        username: 'megagray',
+        password:
+          '$2b$04$Oh36RNrwaoYL1betngrXAu7p16bn0Rqy.pJRkO45cYktUc08GAPYW', // 123456789
+        admin: true,
+        editor: false,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ])
   },
