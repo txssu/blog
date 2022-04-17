@@ -1,6 +1,6 @@
 import * as crud from '../app/crud.mjs'
 
-export default async function auth (req, res, next) {
+export async function auth (req, res, next) {
   const data = req.cookies.usertoken
 
   if (data) {
@@ -13,11 +13,14 @@ export default async function auth (req, res, next) {
   next()
 }
 
-export async function authRequired (req, res, next) {
-  const auth = req.auth
-  if (auth) {
+async function authRequired (req, res, next) {
+  if (req.auth) {
     next()
   } else {
     res.status(401).send({ msg: 'Authorization is required' })
   }
 }
+
+const authorizedOnly = [auth, authRequired]
+
+export default authorizedOnly

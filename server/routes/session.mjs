@@ -1,11 +1,9 @@
 import express from 'express'
 
-import auth, {authRequired} from '../middleware/auth.mjs'
+import authorizedOnly, { auth } from '../middleware/auth.mjs'
 
 import * as crud from '../app/crud.mjs'
 const router = express.Router()
-
-router.use(auth)
 
 /**
  *  @openapi
@@ -58,7 +56,7 @@ router.use(auth)
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.post('/', async function (req, res) {
+router.post('/', auth, async function (req, res) {
   if (req.auth) {
     res.status(409).send({ msg: "You're already authorized" })
     return
@@ -99,9 +97,9 @@ router.post('/', async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
- router.delete('/', authRequired, async function (req, res) {
+router.delete('/', authorizedOnly, async function (req, res) {
   await req.auth.destroy()
-  res.clearCookie("usertoken");
+  res.clearCookie('usertoken')
   res.end()
 })
 

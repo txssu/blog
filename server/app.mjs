@@ -3,8 +3,6 @@ import path, { dirname } from 'path'
 import cookieParser from 'cookie-parser'
 import logger from 'morgan'
 
-import auth from './middleware/auth.mjs'
-
 import indexRouter from './routes/index.mjs'
 import usersRouter from './routes/users.mjs'
 import sessionRouter from './routes/session.mjs'
