@@ -30,10 +30,7 @@ const router = express.Router()
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                user:
- *                  $ref: '#/components/schemas/LoginData'
+ *              $ref: '#/components/schemas/LoginData'
  *      responses:
  *        200:
  *          description: Set usertoken cookie to the newly created token
@@ -63,7 +60,7 @@ router.post('/', auth, asyncHandler(async function (req, res) {
     return
   }
 
-  const user = await crud.loginUser(req.body.user)
+  const user = await crud.loginUser(req.body)
 
   if (user) {
     const token = await crud.createToken(user)

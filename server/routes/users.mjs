@@ -78,10 +78,7 @@ router.get('/', asyncHandler(async function (req, res) {
  *        content:
  *          application/json:
  *            schema:
- *              type: object
- *              properties:
- *                user:
- *                  $ref: '#/components/schemas/NewUser'
+ *              $ref: '#/components/schemas/NewUser'
  *      responses:
  *        200:
  *          description: Returns new user with his password
@@ -98,7 +95,7 @@ router.get('/', asyncHandler(async function (req, res) {
  *          $ref: '#/components/responses/ServerError'
  */
 router.post('/', adminOnly, asyncHandler(async function (req, res) {
-  const userData = req.body.user
+  const userData = req.body
   const { user, password } = await crud.createUser(userData)
   res.send({ user: renderUser(user), password })
 }))
