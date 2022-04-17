@@ -3,7 +3,7 @@ import asyncHandler from 'express-async-handler'
 
 import * as crud from '../app/crud.mjs'
 import renderUser from '../renders/user.mjs'
-import * as helpers from '../app/helpers.mjs'
+import requireField from '../middleware/fields.mjs'
 import adminOnly from '../middleware/admin.mjs'
 const router = express.Router()
 
@@ -94,7 +94,7 @@ router.get('/', asyncHandler(async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.post('/', adminOnly, asyncHandler(async function (req, res) {
+router.post('/', adminOnly, requireField('name', 'username'), asyncHandler(async function (req, res) {
   const userData = req.body
   const { user, password } = await crud.createUser(userData)
   res.send({ user: renderUser(user), password })

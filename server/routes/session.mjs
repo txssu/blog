@@ -1,6 +1,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 
+import requireField from '../middleware/fields.mjs'
 import authorizedOnly, { auth } from '../middleware/auth.mjs'
 
 import * as crud from '../app/crud.mjs'
@@ -54,7 +55,7 @@ const router = express.Router()
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.post('/', auth, asyncHandler(async function (req, res) {
+router.post('/', auth, requireField("username", "password"), asyncHandler(async function (req, res) {
   if (req.auth) {
     res.status(409).send({ msg: "You're already authorized" })
     return
