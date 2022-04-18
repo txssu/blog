@@ -8,6 +8,7 @@ import errorHandler from './middleware/errorHandler.mjs'
 import indexRouter from './routes/index.mjs'
 import usersRouter from './routes/users.mjs'
 import sessionRouter from './routes/session.mjs'
+import tagsRouter from './routes/tags.mjs'
 
 import swaggerUi from 'swagger-ui-express'
 import swaggerJsdoc from 'swagger-jsdoc'
@@ -49,6 +50,7 @@ app.use('/openapi', function (req, res) {
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/session', sessionRouter)
+app.use('/tags', tagsRouter)
 app.use(errorHandler)
 
 export default app

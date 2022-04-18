@@ -48,3 +48,27 @@ export async function createToken (user) {
   const data = await hashing.createToken()
   return user.createToken({ data })
 }
+
+export async function getAllTags () {
+  return db.Tag.findAll()
+}
+
+export async function getTagById (tagId) {
+  return db.Tag.findByPk(tagId, {
+    include: {
+      model: db.Tag,
+      as: 'ChildrenTags'
+    }
+  })
+}
+
+export async function updateTag (tagId, { title, parentTagId }) {
+  return db.Tag.update(
+    { title, parentTagId },
+    {
+      where: {
+        id: tagId
+      }
+    }
+  )
+}
