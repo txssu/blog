@@ -55,25 +55,30 @@ const router = express.Router()
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.post('/', auth, requireField("username", "password"), asyncHandler(async function (req, res) {
-  if (req.auth) {
-    res.status(409).send({ msg: "You're already authorized" })
-    return
-  }
+router.post(
+  '/',
+  auth,
+  requireField('username', 'password'),
+  asyncHandler(async function (req, res) {
+    if (req.auth) {
+      res.status(409).send({ msg: "You're already authorized" })
+      return
+    }
 
-  const user = await crud.loginUser(req.body)
+    const user = await crud.loginUser(req.body)
 
-  if (user) {
-    const token = await crud.createToken(user)
-    res.cookie('usertoken', token.data, {
-      maxAge: 30 * 24 * 60 * 60,
-      httpOnly: true
-    })
-    res.end()
-  } else {
-    res.status(403).send({ msg: 'Wrong username or password' })
-  }
-}))
+    if (user) {
+      const token = await crud.createToken(user)
+      res.cookie('usertoken', token.data, {
+        maxAge: 30 * 24 * 60 * 60,
+        httpOnly: true
+      })
+      res.end()
+    } else {
+      res.status(403).send({ msg: 'Wrong username or password' })
+    }
+  })
+)
 
 /**
  *  @openapi
@@ -96,10 +101,14 @@ router.post('/', auth, requireField("username", "password"), asyncHandler(async 
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.delete('/', authorizedOnly, asyncHandler(async function (req, res) {
-  await req.auth.destroy()
-  res.clearCookie('usertoken')
-  res.end()
-}))
+router.delete(
+  '/',
+  authorizedOnly,
+  asyncHandler(async function (req, res) {
+    await req.auth.destroy()
+    res.clearCookie('usertoken')
+    res.end()
+  })
+)
 
 export default router

@@ -64,10 +64,13 @@ const router = express.Router()
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.get('/', asyncHandler(async function (req, res) {
-  const users = await crud.getAllUsers()
-  res.send(users.map(renderUser))
-}))
+router.get(
+  '/',
+  asyncHandler(async function (req, res) {
+    const users = await crud.getAllUsers()
+    res.send(users.map(renderUser))
+  })
+)
 
 /**
  *  @openapi
@@ -94,11 +97,16 @@ router.get('/', asyncHandler(async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.post('/', adminOnly, requireField('name', 'username'), asyncHandler(async function (req, res) {
-  const userData = req.body
-  const { user, password } = await crud.createUser(userData)
-  res.send({ user: renderUser(user), password })
-}))
+router.post(
+  '/',
+  adminOnly,
+  requireField('name', 'username'),
+  asyncHandler(async function (req, res) {
+    const userData = req.body
+    const { user, password } = await crud.createUser(userData)
+    res.send({ user: renderUser(user), password })
+  })
+)
 
 /**
  *  @openapi
@@ -123,15 +131,18 @@ router.post('/', adminOnly, requireField('name', 'username'), asyncHandler(async
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.get('/:userId', asyncHandler(async function (req, res) {
-  const { userId } = req.params
+router.get(
+  '/:userId',
+  asyncHandler(async function (req, res) {
+    const { userId } = req.params
 
-  const user = await crud.getUserById(userId)
-  if (user === null) {
-    res.status(404).send({ msg: 'User not found' })
-  } else {
-    res.send(renderUser(user))
-  }
-}))
+    const user = await crud.getUserById(userId)
+    if (user === null) {
+      res.status(404).send({ msg: 'User not found' })
+    } else {
+      res.send(renderUser(user))
+    }
+  })
+)
 
 export default router

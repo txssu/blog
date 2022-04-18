@@ -74,7 +74,9 @@ const router = express.Router()
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.get('/', asyncHandler(async function (req, res) {
+router.get(
+  '/',
+  asyncHandler(async function (req, res) {
     const tags = await crud.getAllTags()
     res.send(tags.map(renderTag))
   })
@@ -84,7 +86,7 @@ router.get('/', asyncHandler(async function (req, res) {
  *  @openapi
  *  /tags/{tagId}:
  *    get:
- *      description: Get tag and its children by id 
+ *      description: Get tag and its children by id
  *      parameters:
  *        - $ref: '#/components/parameters/tagId'
  *      responses:
@@ -105,15 +107,17 @@ router.get('/', asyncHandler(async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
- router.get('/:tagId', asyncHandler(async function (req, res) {
-  const { tagId } = req.params
-  const tag = await crud.getTagById(tagId)
-  if (tag === null) {
-    res.status(404).send({ msg: 'Tag not found' })
-  } else {
-    res.send(renderTag(tag))
-  }
-})
+router.get(
+  '/:tagId',
+  asyncHandler(async function (req, res) {
+    const { tagId } = req.params
+    const tag = await crud.getTagById(tagId)
+    if (tag === null) {
+      res.status(404).send({ msg: 'Tag not found' })
+    } else {
+      res.send(renderTag(tag))
+    }
+  })
 )
 
 /**
@@ -134,7 +138,10 @@ router.get('/', asyncHandler(async function (req, res) {
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
-router.put('/:tagId', adminOnly, asyncHandler(async function (req, res) {
+router.put(
+  '/:tagId',
+  adminOnly,
+  asyncHandler(async function (req, res) {
     const { tagId } = req.params
     await crud.updateTag(tagId, req.body)
     res.send()

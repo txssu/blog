@@ -6,11 +6,11 @@ import Sequelize from 'sequelize'
 
 import { fileURLToPath } from 'url'
 
+import config from 'config'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const basename = path.basename(__filename)
-
-import config from 'config'
 
 const dbConfig = config.get('Database')
 
