@@ -1,4 +1,5 @@
 {
+  "saltRounds": 10,
   "Database": {
     "useEnvVariable": true
   }

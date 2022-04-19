@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
+import config from 'config'
 
-const saltRounds = 1 // TODO: load from config
+const saltRounds = config.get('saltRounds')
 
 export async function hashPassword (password) {
   return bcrypt.hash(password, saltRounds)
