@@ -2,6 +2,7 @@
 
 docker run --name "blog_postgres" \
            --rm                   \
+           --net blog             \
            -p 5432:5432           \
            -e POSTGRES_USER=blog  \
            -e POSTGRES_PASSWORD=blog       \

@@ -2,6 +2,7 @@
 
 docker run --name "blog_pg_admin" \
            --rm                   \
+           --net blog             \
            -p 81:80               \
            -e PGADMIN_DEFAULT_EMAIL=development@mail.com  \
            -e PGADMIN_DEFAULT_PASSWORD=123456789          \

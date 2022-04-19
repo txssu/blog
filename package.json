@@ -9,6 +9,7 @@
     "start:dev": "scripty",
     "start:prod": "scripty",
     "lint": "scripty",
+    "docker:network": "scripty",
     "docker:stop": "scripty",
     "docker:postgres:run": "scripty",
     "docker:postgres:stop": "scripty",
