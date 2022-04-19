@@ -60,14 +60,14 @@ export async function getTagById (tagId) {
       as: 'ChildrenTags'
     }
   })
-  await getParentsTree(tag)
+  await getParentsTreeUp(tag)
   return tag
 }
 
-async function getParentsTree (tag) {
-  if (tag.parentTagId) {
+async function getParentsTreeUp (tag) {
+  if (tag && tag.parentTagId) {
     tag.ParentTag = await tag.getParentTag()
-    await getParentsTree(tag.ParentTag)
+    await getParentsTreeUp(tag.ParentTag)
   }
 }
 
@@ -83,19 +83,25 @@ export async function updateTag (tagId, { title, parentTagId }) {
 }
 
 export async function getAllPosts () {
-  return db.Post.findAll({
+  const posts = await db.Post.findAll({
     include: [
       { model: db.User, as: 'Author' },
       { model: db.Tag, as: 'Tag' }
     ]
   })
+  for (let post of posts) {
+    await getParentsTreeUp(post.Tag)
+  }
+  return posts
 }
 
 export async function getPostById (postId) {
-  return db.Post.findByPk(postId, {
+  const post = await db.Post.findByPk(postId, {
     include: [
       { model: db.User, as: 'Author' },
       { model: db.Tag, as: 'Tag' }
     ]
   })
+  await getParentsTreeUp(post.Tag)
+  return post
 }
