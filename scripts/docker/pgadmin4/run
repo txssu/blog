@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+docker run --name "blog_pg_admin" \
+           --rm                   \
+           -p 81:80               \
+           -e PGADMIN_DEFAULT_EMAIL=development@mail.com  \
+           -e PGADMIN_DEFAULT_PASSWORD=123456789          \
+           -v $(pwd)/docker/data/pgadmin:/var/lib/pgadmin \
+           -d \
+           dpage/pgadmin4:latest

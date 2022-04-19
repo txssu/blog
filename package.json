@@ -10,6 +10,7 @@
     "start:prod": "scripty",
     "lint": "scripty",
     "docker:postgres:run": "scripty",
+    "docker:pgadmin4:run": "scripty",
     "db:create": "scripty",
     "db:migrate": "scripty",
     "db:setup": "scripty",
