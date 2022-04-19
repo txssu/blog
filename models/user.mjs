@@ -7,6 +7,9 @@ export default (sequelize, DataTypes) => {
       User.hasMany(models.Token, {
         foreignKey: 'userId'
       })
+      User.hasMany(models.Post, {
+        foreignKey: 'authorId'
+      })
     }
   }
   User.init(

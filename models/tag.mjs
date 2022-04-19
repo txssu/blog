@@ -12,6 +12,9 @@ export default (sequelize, DataTypes) => {
         as: 'ChildrenTags',
         foreignKey: 'parentTagId'
       })
+      Tag.hasMany(models.Post, {
+        foreignKey: 'tagId'
+      })
     }
   }
   Tag.init(

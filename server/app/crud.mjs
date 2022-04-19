@@ -72,3 +72,21 @@ export async function updateTag (tagId, { title, parentTagId }) {
     }
   )
 }
+
+export async function getAllPosts () {
+  return db.Post.findAll({
+    include: [
+      { model: db.User, as: 'Author' },
+      { model: db.Tag, as: 'Tag' }
+    ]
+  })
+}
+
+export async function getPostById (postId) {
+  return db.Post.findByPk(postId, {
+    include: [
+      { model: db.User, as: 'Author' },
+      { model: db.Tag, as: 'Tag' }
+    ]
+  })
+}
