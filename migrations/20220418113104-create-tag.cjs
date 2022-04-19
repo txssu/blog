@@ -9,7 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       parentTagId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
+        references: {
+          model: 'Tags',
+          key: 'id',
+          as: 'ParentTag'
+        }
       },
       title: {
         type: Sequelize.STRING,
