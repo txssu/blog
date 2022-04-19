@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+docker rm blog_pg_admin -f
+docker rm blog_postgres -f
