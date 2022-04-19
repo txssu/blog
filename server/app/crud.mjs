@@ -54,12 +54,21 @@ export async function getAllTags () {
 }
 
 export async function getTagById (tagId) {
-  return db.Tag.findByPk(tagId, {
+  const tag = await db.Tag.findByPk(tagId, {
     include: {
       model: db.Tag,
       as: 'ChildrenTags'
     }
   })
+  await getParentsTree(tag)
+  return tag
+}
+
+async function getParentsTree (tag) {
+  if (tag.parentTagId) {
+    tag.ParentTag = await tag.getParentTag()
+    await getParentsTree(tag.ParentTag)
+  }
 }
 
 export async function updateTag (tagId, { title, parentTagId }) {

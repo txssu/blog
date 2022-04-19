@@ -18,8 +18,6 @@ const router = express.Router()
  *            type: integer
  *          title:
  *            type: string
- *          parentTagId:
- *            type: integer
  *      UpdatedTag:
  *        type: object
  *        properties:
@@ -27,27 +25,30 @@ const router = express.Router()
  *            type: string
  *          parentTagId:
  *            type: integer
- *      TagWithChildren:
+ *      TagHierarchy:
  *        type: object
  *        properties:
  *          id:
  *            type: integer
  *          title:
  *            type: string
- *          parentTagId:
- *            type: integer
  *          ChildrenTags:
  *            type: array
  *            items:
  *              $ref: '#/components/schemas/Tag'
+ *          ParentTag:
+ *            $ref: '#/components/schemas/TagHierarchy'
  *        example:
  *          id: 42
  *          title: Programming language
- *          parentTagId: 41
  *          ChildrenTags:
  *            - id: 43
  *              title: JavaScript
- *              parentTagId: 42
+ *            - id: 44
+ *              title: Elixir
+ *          ParentTag:
+ *            id: 41
+ *            title: Development
  *    parameters:
  *      tagId:
  *        name: tagId
@@ -70,7 +71,7 @@ const router = express.Router()
  *              schema:
  *                type: array
  *                items:
- *                  $ref: '#/components/schemas/Tag'
+ *                  $ref: '#/components/schemas/TagHierarchy'
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
@@ -78,7 +79,7 @@ router.get(
   '/',
   asyncHandler(async function (req, res) {
     const tags = await crud.getAllTags()
-    res.send(tags.map(renderTag))
+    res.send(tags.map(x => renderTag(x, true)))
   })
 )
 
