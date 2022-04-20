@@ -31,7 +31,6 @@ router.get(
   asyncHandler(async function (req, res) {
     const { postId } = req.params
     const post = await crud.getPostById(postId)
-    console.log(post)
     if (post) {
       res.send(renderPost(post, true))
     } else {
