@@ -102,6 +102,13 @@ export async function getPostById (postId) {
       { model: db.Tag, as: 'Tag' }
     ]
   })
-  await getParentsTreeUp(post.Tag)
+  if (post) await getParentsTreeUp(post.Tag)
   return post
+}
+
+export async function createPost (
+  user,
+  { title, tagId, content, photos, posted }
+) {
+  return user.createPost({ title, tagId, content, photos, posted })
 }

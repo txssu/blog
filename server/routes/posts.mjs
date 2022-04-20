@@ -15,16 +15,27 @@ router.get(
   })
 )
 
+router.post(
+  '/',
+  editorOnly,
+  requireField('title', 'tagId', 'content'),
+  asyncHandler(async function (req, res) {
+    const postData = req.body
+    const post = await crud.createPost(req.auth.User, postData)
+    res.send(renderPost(post))
+  })
+)
+
 router.get(
   '/:postId',
   asyncHandler(async function (req, res) {
     const { postId } = req.params
-
     const post = await crud.getPostById(postId)
-    if (!post) {
-      res.status(404).send({ msg: 'Post not found' })
-    } else {
+    console.log(post)
+    if (post) {
       res.send(renderPost(post, true))
+    } else {
+      res.status(404).send({ msg: 'Post not found' })
     }
   })
 )
