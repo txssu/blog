@@ -1,8 +1,14 @@
 import db from '../../models/index.mjs'
 import * as hashing from './hashing.mjs'
 
-export async function getAllUsers () {
-  return db.User.findAll()
+const defaultLimit = 10
+
+export async function getAllUsers (limit = defaultLimit, offset = 0) {
+  return db.User.findAll({
+    order: [['id', 'ASC']],
+    limit: limit || defaultLimit,
+    offset: offset || 0
+  })
 }
 export async function getUserById (userId) {
   return db.User.findByPk(userId)
@@ -49,8 +55,12 @@ export async function createToken (user) {
   return user.createToken({ data })
 }
 
-export async function getAllTags () {
-  return db.Tag.findAll()
+export async function getAllTags (limit = defaultLimit, offset = 0) {
+  return db.Tag.findAll({
+    order: [['id', 'ASC']],
+    limit: limit || defaultLimit,
+    offset: offset || 0
+  })
 }
 
 export async function getTagById (tagId) {
@@ -82,12 +92,16 @@ export async function updateTag (tagId, { title, parentTagId }) {
   )
 }
 
-export async function getAllPosts () {
+export async function getAllPosts (limit = defaultLimit, offset = 0) {
   const posts = await db.Post.findAll({
     include: [
       { model: db.User, as: 'Author' },
       { model: db.Tag, as: 'Tag' }
-    ]
+    ],
+
+    order: [['id', 'ASC']],
+    limit: limit,
+    offset: offset
   })
   for (let post of posts) {
     await getParentsTreeUp(post.Tag)
