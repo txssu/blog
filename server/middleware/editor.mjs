@@ -1,7 +1,7 @@
-import { auth } from './auth.mjs'
+import auth from './auth.mjs'
 
 async function editorRequired (req, res, next) {
-  if (req.auth && req.auth.User.editor) {
+  if (req.auth && (req.auth.User.editor || req.auth.User.admin)) {
     next()
   } else {
     res.status(401).send({ msg: 'You must be editor' })
