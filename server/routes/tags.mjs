@@ -78,7 +78,7 @@ const router = express.Router()
 router.get(
   '/',
   asyncHandler(async function (req, res) {
-    const {limit, offset} = req.query
+    const { limit, offset } = req.query
     const tags = await crud.getAllTags(limit, offset)
     res.send(tags.map(x => renderTag(x, true)))
   })

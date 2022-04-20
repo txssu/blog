@@ -16,7 +16,7 @@ module.exports = {
     ])
 
     const users = await queryInterface.sequelize.query(
-      `SELECT id from "Users";`
+      'SELECT id from "Users";'
     )
 
     const usersRows = users[0]
@@ -29,7 +29,7 @@ module.exports = {
       }
     ])
 
-    const tags = await queryInterface.sequelize.query(`SELECT id from "Tags";`)
+    const tags = await queryInterface.sequelize.query('SELECT id from "Tags";')
 
     const tagsRows = tags[0]
 

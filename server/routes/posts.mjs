@@ -76,7 +76,7 @@ const router = express.Router()
 router.get(
   '/',
   asyncHandler(async function (req, res) {
-    const {limit, offset} = req.query
+    const { limit, offset } = req.query
     const posts = await crud.getAllPosts(limit, offset)
     res.send(posts.map(renderPost))
   })

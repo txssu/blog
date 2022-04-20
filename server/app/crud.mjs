@@ -103,7 +103,7 @@ export async function getAllPosts (limit = defaultLimit, offset = 0) {
     limit: limit,
     offset: offset
   })
-  for (let post of posts) {
+  for (const post of posts) {
     await getParentsTreeUp(post.Tag)
   }
   return posts
