@@ -5,7 +5,7 @@ export async function auth (req, res, next) {
 
   if (data) {
     const token = await crud.getTokenByData(data)
-    if (token.expiresAfter > new Date()) {
+    if (token && token.expiresAfter > new Date()) {
       req.auth = token
     }
   }
