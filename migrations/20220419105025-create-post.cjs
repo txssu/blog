@@ -35,7 +35,7 @@ module.exports = {
       },
       content: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       photos: {
         type: Sequelize.ARRAY(Sequelize.STRING)
