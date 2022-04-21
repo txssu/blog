@@ -129,3 +129,13 @@ export async function createPost (
 ) {
   return user.createPost({ title, tagId, content, photos, posted })
 }
+
+export async function updatePost (
+  id,
+  { title, tagId, content, photos, posted }
+) {
+  return db.Post.update(
+    { title, tagId, content, photos, posted },
+    { where: { id } }
+  )
+}

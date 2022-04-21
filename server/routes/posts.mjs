@@ -164,4 +164,32 @@ router.get(
   })
 )
 
+/**
+ *  @openapi
+ *  /posts/{postId}:
+ *    put:
+ *      description: Update posts data. Author only.
+ *      parameters:
+ *        - $ref: '#/components/parameters/postId'
+ *      requestBody:
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Post'
+ *      responses:
+ *        200:
+ *          description: Success
+ *        500:
+ *          $ref: '#/components/responses/ServerError'
+ */
+ router.put(
+  '/:postId',
+  authorOnly,
+  asyncHandler(async function (req, res) {
+    const { postId } = req.params
+    await crud.updatePost(postId, req.body)
+    res.send()
+  })
+)
+
 export default router

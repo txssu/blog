@@ -6,7 +6,8 @@ export default function fullRender (post, content) {
     id: post.id,
     title: post.title,
     photos: post.photos,
-    createdAt: post.createdAt
+    createdAt: post.createdAt,
+    posted: post.posted
   }
   if (post.Author) data.author = userRender(post.Author)
   else data.authorId = post.authorId
