@@ -5,6 +5,7 @@ import * as crud from '../app/crud.mjs'
 import renderPost from '../renders/post.mjs'
 import requireField from '../middleware/fields.mjs'
 import editorOnly from '../middleware/editor.mjs'
+import authorOnly from '../middleware/author.mjs'
 const router = express.Router()
 
 /**
@@ -134,6 +135,12 @@ router.post(
  *                type: array
  *                items:
  *                  $ref: '#/components/schemas/Post'
+ *        403:
+ *          description: You must be author of this post
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Error'
  *        404:
  *          description: There is no post with this ID
  *          content:
@@ -145,6 +152,7 @@ router.post(
  */
 router.get(
   '/:postId',
+  authorOnly,
   asyncHandler(async function (req, res) {
     const { postId } = req.params
     const post = await crud.getPostById(postId)

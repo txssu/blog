@@ -98,6 +98,9 @@ export async function getAllPosts (limit = defaultLimit, offset = 0) {
       { model: db.User, as: 'Author' },
       { model: db.Tag, as: 'Tag' }
     ],
+    where: {
+      posted: true
+    },
 
     order: [['id', 'ASC']],
     limit: limit,
