@@ -68,31 +68,31 @@ const router = express.Router()
  *      parameters:
  *        - in: query
  *          name: createdAt
- *          schema: 
+ *          schema:
  *            type: string
  *            format: date
  *        - in: query
  *          name: createdUntil
- *          schema: 
+ *          schema:
  *            type: string
  *            format: date
  *        - in: query
  *          name: createdSince
- *          schema: 
+ *          schema:
  *            type: string
  *            format: date
  *        - in: query
  *          name: author
- *          schema: 
+ *          schema:
  *            type: string
  *        - in: query
  *          name: tagId
- *          schema: 
+ *          schema:
  *            type: integer
  *        - in: query
  *          name: search
- *          description: Substring to be found 
- *          schema: 
+ *          description: Substring to be found
+ *          schema:
  *            type: string
  *        - in: query
  *          name: searchIn
@@ -225,7 +225,7 @@ router.get(
  *        500:
  *          $ref: '#/components/responses/ServerError'
  */
- router.put(
+router.put(
   '/:postId',
   authorOnly,
   asyncHandler(async function (req, res) {

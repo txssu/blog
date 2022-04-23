@@ -150,7 +150,6 @@ export async function getAllPosts (
       Object.assign(conds, { '$Tag.title$': { [Op.substring]: search } })
     }
 
-    console.log(conds)
     Object.assign(where, { [Op.or]: conds })
   }
 
