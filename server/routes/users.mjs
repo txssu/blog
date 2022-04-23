@@ -52,6 +52,9 @@ const router = express.Router()
  *  /users:
  *    get:
  *      description: Get all users
+ *      parameters:
+ *        - $ref: '#/components/parameters/limit'
+ *        - $ref: '#/components/parameters/offset'
  *      responses:
  *        200:
  *          description: Returns array of users

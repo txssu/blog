@@ -17,6 +17,17 @@ const router = express.Router()
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Error'
+ *    parameters:
+ *      limit:
+ *        name: limit
+ *        in: query
+ *        schema:
+ *          type: integer
+ *      offset:
+ *        name: offset
+ *        in: query
+ *        schema:
+ *          type: integer
  */
 
 router.get('/', function (req, res) {

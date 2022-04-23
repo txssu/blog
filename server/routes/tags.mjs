@@ -63,6 +63,9 @@ const router = express.Router()
  *  /tags:
  *    get:
  *      description: Get list of all tags
+ *      parameters:
+ *        - $ref: '#/components/parameters/limit'
+ *        - $ref: '#/components/parameters/offset'
  *      responses:
  *        200:
  *          description: Returns list of tags

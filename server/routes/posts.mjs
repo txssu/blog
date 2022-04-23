@@ -62,6 +62,9 @@ const router = express.Router()
  *  /posts:
  *    get:
  *      description: Get list of all posts
+ *      parameters:
+ *        - $ref: '#/components/parameters/limit'
+ *        - $ref: '#/components/parameters/offset'
  *      responses:
  *        200:
  *          description: Returns list of posts
