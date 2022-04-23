@@ -6,6 +6,9 @@ import renderPost from '../renders/post.mjs'
 import requireField from '../middleware/fields.mjs'
 import editorOnly from '../middleware/editor.mjs'
 import authorOnly from '../middleware/author.mjs'
+
+import * as images from '../app/images.mjs'
+
 const router = express.Router()
 
 /**
@@ -153,6 +156,7 @@ router.post(
   requireField('title', 'tagId', 'content'),
   asyncHandler(async function (req, res) {
     const postData = req.body
+    postData.photos = postData.photos?.map(images.saveImage)
     const post = await crud.createPost(req.auth.User, postData)
     res.send(renderPost(await crud.getPostById(post.id), true))
   })

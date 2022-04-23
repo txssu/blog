@@ -67,3 +67,6 @@ typings/
 
 # docker data
 docker/data
+
+# images
+public/images
