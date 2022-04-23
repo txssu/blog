@@ -63,6 +63,42 @@ const router = express.Router()
  *    get:
  *      description: Get list of all posts
  *      parameters:
+ *        - in: query
+ *          name: createdAt
+ *          schema: 
+ *            type: string
+ *            format: date
+ *        - in: query
+ *          name: createdUntil
+ *          schema: 
+ *            type: string
+ *            format: date
+ *        - in: query
+ *          name: createdSince
+ *          schema: 
+ *            type: string
+ *            format: date
+ *        - in: query
+ *          name: author
+ *          schema: 
+ *            type: string
+ *        - in: query
+ *          name: tagId
+ *          schema: 
+ *            type: integer
+ *        - in: query
+ *          name: search
+ *          description: Substring to be found 
+ *          schema: 
+ *            type: string
+ *        - in: query
+ *          name: searchIn
+ *          description: >
+ *            A set of fields where we are looking, listed separated by commas.
+ *            Possible values: post, author, tag.
+ *            Default: post
+ *          schema:
+ *            type: string
  *        - $ref: '#/components/parameters/limit'
  *        - $ref: '#/components/parameters/offset'
  *      responses:
@@ -81,8 +117,8 @@ router.get(
   '/',
   asyncHandler(async function (req, res) {
     const { limit, offset } = req.query
-    const posts = await crud.getAllPosts(limit, offset)
-    res.send(posts.map(renderPost))
+    const posts = await crud.getAllPosts(req.query, limit, offset)
+    res.send(posts.map(post => renderPost(post, false)))
   })
 )
 

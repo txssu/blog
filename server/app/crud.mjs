@@ -1,6 +1,8 @@
 import db from '../../models/index.mjs'
 import * as hashing from './hashing.mjs'
 
+const { Op } = db.Sequelize
+
 const defaultLimit = 10
 
 export async function getAllUsers (limit = defaultLimit, offset = 0) {
@@ -92,15 +94,74 @@ export async function updateTag (tagId, { title, parentTagId }) {
   )
 }
 
-export async function getAllPosts (limit = defaultLimit, offset = 0) {
+export async function getAllPosts (
+  { createdAt, createdUntil, createdSince, author, tagId, search, searchIn },
+  limit = defaultLimit,
+  offset = 0
+) {
+  const where = {}
+
+  if (createdAt) {
+    const dayAt = new Date(createdAt)
+    const dayStart = dayAt.setHours(0, 0, 0, 0)
+    const dayEnd = dayAt.setHours(23, 59, 59, 999)
+    where.createdAt = {
+      [Op.gt]: dayStart,
+      [Op.lt]: dayEnd
+    }
+  }
+
+  if (createdUntil) {
+    const date = new Date(createdUntil)
+    where.createdAt = {
+      [Op.lt]: date
+    }
+  }
+
+  if (createdSince) {
+    const date = new Date(createdSince)
+    where.createdAt = {
+      [Op.gt]: date
+    }
+  }
+
+  if (author) {
+    Object.assign(where, {
+      '$Author.username$': author
+    })
+  }
+
+  if (tagId) {
+    where.tagId = tagId
+  }
+
+  if (search && searchIn) {
+    const places = searchIn.split(',')
+    const conds = {}
+
+    if (places.includes('post')) {
+      conds.content = { [Op.substring]: search }
+      conds.title = { [Op.substring]: search }
+    }
+    if (places.includes('author')) {
+      Object.assign(conds, { '$Author.name$': { [Op.substring]: search } })
+    }
+    if (places.includes('tag')) {
+      Object.assign(conds, { '$Tag.title$': { [Op.substring]: search } })
+    }
+
+    console.log(conds)
+    Object.assign(where, { [Op.or]: conds })
+  }
+
+  where.posted = true
+
   const posts = await db.Post.findAll({
     include: [
       { model: db.User, as: 'Author' },
       { model: db.Tag, as: 'Tag' }
     ],
-    where: {
-      posted: true
-    },
+    where,
 
     order: [['id', 'ASC']],
     limit: limit,
